@@ -1,9 +1,11 @@
+'''Author:Dustni'''
 import pygame
 from pygame.locals import *
 from sys import exit
 import time
 import receive
 import gv
+import fan_c
 
 def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
@@ -75,30 +77,40 @@ def decrease_warn_line():
     gv.warn_line-=1
     file_object = open('data.txt', 'w')
     file_object.write(str(gv.warn_line))
-    file_object.close( )
+    file_object.close()
     return gv.warn_line
 
 def warn(x):
+    global warn_state
+    global fan_speed
     if(x>=gv.warn_line):
-        print('true')
         warn_font = fontObj.render('Warning!!!Over heating!!!', True, RED, BLUE)
         warn_font_obj = warn_font.get_rect()
         warn_font_obj.center = (360, 250)
         screen.blit(warn_font, warn_font_obj)
 
-def cal_fan_spd(temper):
-    x=temper-warning
-    if x<=0:
-        fan_speed= 0
+        if(warn_state==False):
+            warn_state=True
+            fan_c.fan_open()
+            fan_speed=update_fan_spd(x)
     else:
-        fan_speed=(int(x))
+        warn_state=False
+        fan_c.fan_close()
+        fan_speed=0
 
+    return True
+
+
+
+
+def update_fan_spd(temper):
+    return 1
 
 max_temp=50
 scale_temp=200/max_temp       
 
 
-
+warn_state= False
 fan_speed=0
 draw_list=[[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0]]
 
