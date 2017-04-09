@@ -1,6 +1,8 @@
 import serial
 import random
-ser=serial.Serial('Com3',9600)
+#ser=serial.Serial('Com3',9600)
+ser=serial.Serial('/dev/ttyUSB0',9600)
+
 def get_temper():
     data=ser.readline()
     return data.decode()[:-2]
