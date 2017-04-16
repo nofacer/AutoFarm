@@ -56,7 +56,7 @@ def draw_gui():
     warn_temp_obj.center = (20, 280+200-scale_temp*gv.warn_line)
     screen.blit(warn_temp_font, warn_temp_obj)
 
-    fan_speed_font = fontObj_2.render('Fan speed(0-100): '+str(fan_speed), True, WHITE, BLUE)
+    fan_speed_font = fontObj_2.render('Fan speed: '+str(fan_speed), True, WHITE, BLUE)
     fan_speed_font_obj = fan_speed_font.get_rect()
     fan_speed_font_obj.center = (360, 160)
     screen.blit(fan_speed_font, fan_speed_font_obj)
@@ -94,6 +94,8 @@ def warn(x):
             warn_state=True
             fan_c.fan_open()
             fan_speed=update_fan_spd(x)
+        else:
+            fan_speed = update_fan_spd(x)
     else:
         warn_state=False
         fan_c.fan_close()
