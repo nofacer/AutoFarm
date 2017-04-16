@@ -6,6 +6,7 @@ import time
 import receive
 import gv
 import fan_c
+import dill as pickle
 
 def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
@@ -104,7 +105,7 @@ def warn(x):
 
 
 def update_fan_spd(temper):
-    return 1
+    return _model.evaluate([gv.warn_line,temper])
 
 max_temp=50
 scale_temp=200/max_temp       
@@ -127,7 +128,8 @@ screen = pygame.display.set_mode((720, 480), FULLSCREEN, 32)
 fontObj = pygame.font.Font('freesansbold.ttf', 32)
 fontObj_2 = pygame.font.Font('freesansbold.ttf', 16)
 # pygame.mouse.set_visible(False)
-
+with open("gptree.pkl", 'rb') as f:
+    _model = pickle.load(f)
 
 while True:
     temper=receive.get_temper()
